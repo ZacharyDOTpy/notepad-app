@@ -1,13 +1,13 @@
 const fs = require('fs');
 const notes = require('express').Router();
-const data = require('../db/db.json');
+const dbData = require('../db/db.json');
 const path = require('path');
 
 const uuid = require('../helpers/uuid');
 
 
 notes.get('/', (req, res) => {
-  const data = fs.readFileSync('./db/db.json', 'utf8');
+  const data = fs.readFileSync(dbData, 'utf8');
   const notesDb = data ? JSON.parse(data) : [];
 
   res.json(notesDb)
@@ -22,13 +22,13 @@ notes.post('/', (req, res) => {
     id: uuid()
   };
 
-  const data = fs.readFileSync('./db/db.json', 'utf8');
+  const data = fs.readFileSync(dbData, 'utf8');
   const notesDb = data ? JSON.parse(data) : [];
   notesDb.push(newNote)
 
   const dataString = JSON.stringify(notesDb, null, 2);
 
-  fs.writeFileSync('./db/db.json', dataString)
+  fs.writeFileSync(dbData, dataString)
   res.json(req.body)
 });
 
