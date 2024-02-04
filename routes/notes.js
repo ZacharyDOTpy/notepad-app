@@ -7,30 +7,30 @@ router.get('/notes', (req, res) => {
     if (err) {
       throw err 
     } else {
-      let notesData = JSON.parse(notes)
-      res.json(notesData)
+      let noteData = JSON.parse(notes)
+      res.json(noteData)
     }
   })
 });
 
 router.post('/notes', (req, res) => {
-  const notesData = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'))
-  const newNote = {
+  const noteData = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'))
+  const newNotes = {
     title: req.body.title,
     text: req.body.text,
     id: uuidv4()
   }
 
-  notesData.push(newNote)
-  fs.writeFileSync('./db/db.json', JSON.stringify(notesData))
-  req.json(notesData)
+  noteData.push(newNotes)
+  fs.writeFileSync('./db/db.json', JSON.stringify(noteData))
+  req.json(noteData)
 });
 
 router.delete('/notes/:id', (req, res) => {
-  let notes = fs.readFileSync('./db/db.json', 'utf-8')
-  let notesData = JSON.parse(notes)
-  let filterNote = notesData.filter((notes) => {
-    return note.id !== req.params.id
+  let note = fs.readFileSync('./db/db.json', 'utf-8')
+  let noteData = JSON.parse(note)
+  let filterNote = noteData.filter((notes) => {
+    return notes.id !== req.params.id
   })
 
   fs.writeFileSync('./db/db.json', JSON.stringify(filterNote))
