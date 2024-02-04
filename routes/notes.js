@@ -2,6 +2,7 @@ const fs = require('fs');
 const router = require('express').Router();
 const {v4:uuidv4} = require('uuid');
 
+// GET notes json data from database
 router.get('/notes', (req, res) => {
   fs.readFile('./db/db.json', (err, notes) => {
     if (err) {
@@ -13,6 +14,7 @@ router.get('/notes', (req, res) => {
   })
 });
 
+// POST new note json data to database & create unique uuid
 router.post('/notes', (req, res) => {
   const noteData = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'))
   const newNotes = {
@@ -26,6 +28,7 @@ router.post('/notes', (req, res) => {
   req.json(noteData)
 });
 
+// DELETE note json data by :id
 router.delete('/notes/:id', (req, res) => {
   let note = fs.readFileSync('./db/db.json', 'utf-8')
   let noteData = JSON.parse(note)
