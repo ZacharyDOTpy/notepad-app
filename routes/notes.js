@@ -1,36 +1,40 @@
 const fs = require('fs');
-const notes = require('express').Router();
-const dbPath = require('../db/db.json');
-const path = require('path');
+const router = require('express').Router();
+const {v4:uuidv4} = require('uuid');
 
-const uuid = require('../helpers/uuid');
-
-
-notes.get('/', (req, res) => {
-  const data = fs.readFileSync(dbPath, 'utf8');
-  const notesDb = data ? JSON.parse(data) : [];
-
-  res.json(notesDb)
+router.get('/notes', (req, res) => {
+  fs.readFile('./db/db.json', (err, notes) => {
+    if (err) {
+      throw err 
+    } else {
+      let notesData = JSON.parse(notes)
+      res.json(notesData)
+    }
+  })
 });
 
-notes.post('/', (req, res) => {
-  const {title, text} = req.body;
+router.post('/notes', (req, res) => {
+  const notesData = JSON.parse(fs.readFileSync('./db/db.json', 'utf-8'))
+  const newNote = {
+    title: req.body.title,
+    text: req.body.text,
+    id: uuidv4()
+  }
 
-  const newPost = {
-    title,
-    text,
-    id: uuid()
-  };
-
-  const data = fs.readFileSync(dbPath, 'utf8');
-  const notesDb = data ? JSON.parse(data) : [];
-  notesDb.push(newPost)
-
-  const dataString = JSON.stringify(notesDb, null, 2);
-
-  fs.writeFileSync(dbPath, dataString)
-  res.json(req.body)
+  notesData.push(newNote)
+  fs.writeFileSync('./db/db.json', JSON.stringify(notesData))
+  req.json(notesData)
 });
 
+router.delete('/notes/:id', (req, res) => {
+  let notes = fs.readFileSync('./db/db.json', 'utf-8')
+  let notesData = JSON.parse(notes)
+  let filterNote = notesData.filter((notes) => {
+    return note.id !== req.params.id
+  })
 
-module.exports = notes
+  fs.writeFileSync('./db/db.json', JSON.stringify(filterNote))
+  res.json({message: 'Note Deleted'})
+});
+
+module.exports = router
