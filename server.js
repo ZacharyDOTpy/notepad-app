@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const api = require('./routes/index');
+const api = require('./routes/api');
 
 const PORT = process.env.PORT ?? 3001;
 
@@ -14,7 +14,7 @@ app.use('/api', api);
 
 // route to homepage
 app.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, 'views/index.html'))
+  res.sendFile(path.join(__dirname, 'views/notes.html'))
 );
 
 // route to notes api
