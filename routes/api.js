@@ -1,4 +1,3 @@
-const { json } = require('express');
 const fs = require('fs');
 const router = require('express').Router();
 const { v4: uuidv4 } = require('uuid');
@@ -6,7 +5,7 @@ const { v4: uuidv4 } = require('uuid');
 // GET notes json data from database
 router.get('/api/notes', async (req, res) => {
   const dbData = await JSON.parse(fs.readFileSync('db/db.json', 'utf-8'));
-  res.join(dbData);
+  res.json(dbData);
 });
 
 router.post('./api/notes', (req, res) => {
@@ -19,7 +18,7 @@ router.post('./api/notes', (req, res) => {
 
   dbData.push(noteData);
   fs.writeFileSync('db/db.json', JSON.stringify(dbData));
-  res.join(dbData);
+  res.json(dbData);
 });
 
 router.delete('/api/notes/:id', (req, res) => {
