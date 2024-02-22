@@ -7,7 +7,7 @@ In this challenge I used express to GET, POST, and DELETE json data to a notepad
 Users can view previeous notes they have saved, create new notes that will be saved to a database, or delete existing notes which will destroy that notes data from the database.
 
 ## Screenshot
-![Screenshot of Notepad App]
+![Screenshot of Notepad App](./screenshots/Note%20Taker.png)
 
 ## Link
-[Link to Heroku App]
+[Link to Heroku App](https://tranquil-fortress-57336-6c2e05449c96.herokuapp.com/)

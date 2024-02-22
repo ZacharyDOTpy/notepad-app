@@ -8,6 +8,7 @@ router.get('/api/notes', async (req, res) => {
   res.json(dbData);
 });
 
+// POST new note to database
 router.post('/api/notes', (req, res) => {
   const dbData = JSON.parse(fs.readFileSync('db/db.json', 'utf-8'));
   const noteData = {
@@ -15,12 +16,13 @@ router.post('/api/notes', (req, res) => {
     text: req.body.text,
     id: uuidv4(),
   };
-
+// push new note to database
   dbData.push(noteData);
   fs.writeFileSync('db/db.json', JSON.stringify(dbData));
   res.json(dbData);
 });
 
+// DELETE note from database
 router.delete('/api/notes/:id', (req, res) => {
   let data = fs.readFileSync('db/db.json', 'utf-8');
   const jsonData = JSON.parse(data);
