@@ -8,7 +8,7 @@ router.get('/api/notes', async (req, res) => {
   res.json(dbData);
 });
 
-router.post('./api/notes', (req, res) => {
+router.post('/api/notes', (req, res) => {
   const dbData = JSON.parse(fs.readFileSync('db/db.json', 'utf-8'));
   const noteData = {
     title: req.body.title,
